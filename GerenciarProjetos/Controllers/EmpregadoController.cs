@@ -33,7 +33,7 @@ namespace GerenciarProjetos.Controllers
         [SwaggerResponse(200, Type = typeof(DefaultResultResponse))]
         [SwaggerResponse(400, "Uma ou mais propriedades são inválidas", Type = typeof(BadRequestResponse))]
         [SwaggerResponse(401, "Token não informado ou inválido", Type = typeof(ErrorResponse))]
-        [SwaggerResponse(404, "O empregado de Id igual a Request.IdEmpregado informado não existe ou foi excluído", typeof(ErrorResponse))]
+        [SwaggerResponse(404, "O empregado informado não existe ou foi excluído", typeof(ErrorResponse))]
         [SwaggerResponse(500, "Erro interno", typeof(ErrorResponse))]
         public DefaultResultResponse EditarEmpregado(EditarEmpregadoRequest request)
         {
@@ -43,6 +43,7 @@ namespace GerenciarProjetos.Controllers
         [HttpDelete("ExcluirEmpregado")]
         [SwaggerResponse(200, Type = typeof(DefaultResultResponse))]
         [SwaggerResponse(401, "Token não informado ou inválido", Type = typeof(ErrorResponse))]
+        [SwaggerResponse(404, "O empregado informado não existe ou foi excluído", typeof(ErrorResponse))]
         [SwaggerResponse(500, "Erro interno", typeof(ErrorResponse))]
         public DefaultResultResponse ExcluirEmpregado(int idEmpregado)
         {
@@ -52,6 +53,7 @@ namespace GerenciarProjetos.Controllers
         [HttpGet("ObterDetalhes")]
         [SwaggerResponse(200, Type = typeof(DefaultResultResponse))]
         [SwaggerResponse(401, "Token não informado ou inválido", Type = typeof(ErrorResponse))]
+        [SwaggerResponse(404, "O empregado informado não existe ou foi excluído", typeof(ErrorResponse))]
         [SwaggerResponse(500, "Erro interno", typeof(ErrorResponse))]
         public DetalhesProjetoResponse ObterDetalhes(int idEmpregado)
         {
