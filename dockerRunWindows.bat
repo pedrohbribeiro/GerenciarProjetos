@@ -1,0 +1,1 @@
+docker build -t gerenciarprojetos . && (docker stop gerenciarprojetos || true) && (docker rm gerenciarprojetos || true) && docker run -d -p 8080:80 --name gerenciarprojetos gerenciarprojetos
