@@ -7,6 +7,7 @@ using GerenciarProjetos.Extensions;
 using GerenciarProjetos.Models.Requests.Projeto;
 using GerenciarProjetos.Models.Responses.Projeto;
 using GerenciarProjetos.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace GerenciarProjetos.Repositories
 {
@@ -21,21 +22,40 @@ namespace GerenciarProjetos.Repositories
             _mapper = mapper;
         }
 
-        public void Cadastrar(CadastrarProjetoRequest Projeto)
+        public void Cadastrar(CadastrarProjetoRequest projeto)
         {
-            _context.Projeto.Add(_mapper.Map<ProjetoEntity>(Projeto));
+            projeto.IdsMembros ??= new List<int>();
+            ValidarGerenteEMembrosProjeto(projeto.IdGerente, projeto.IdsMembros);
+
+            _context.Projeto.Add(_mapper.Map<ProjetoEntity>(projeto));
             _context.SaveChanges();
         }
 
-        public void Editar(EditarProjetoRequest Projeto)
+        public void Editar(EditarProjetoRequest projeto)
         {
-            var ProjetoDb = _context.Projeto.FirstOrDefault(e => e.IdProjeto == Projeto.IdProjeto && !e.Excluido);
+            projeto.IdsMembros ??= new List<int>();
+            ValidarGerenteEMembrosProjeto(projeto.IdGerente, projeto.IdsMembros);
+            var projetoDb = _context.Projeto
+                .Include(k => k.Membro)
+                .FirstOrDefault(e => e.IdProjeto == projeto.IdProjeto && !e.Excluido);
 
-            if (ProjetoDb == null)
+            if (projetoDb == null)
                 throw new EntityNotFoundException("O projeto informado não existe.");
 
-            _mapper.Map(Projeto, ProjetoDb);
+            _mapper.Map(projeto, projetoDb);
             _context.SaveChanges();
+        }
+
+        private void ValidarGerenteEMembrosProjeto(int idGerente, List<int> idsMembros)
+        {
+            if (!_context.Empregado.Any(k => k.IdEmpregado == idGerente && !k.Excluido))
+                throw new EntityNotFoundException("O gerente informado não existe.");
+
+            if (idsMembros.Count != idsMembros.Distinct().Count())
+                throw new BadRequestException("Um projeto não pode ter membros repetidos.");
+
+            if (_context.Empregado.Count(k => idsMembros.Contains(k.IdEmpregado) && !k.Excluido) != idsMembros.Count)
+                throw new EntityNotFoundException("Um ou mais membros informados não existem.");
         }
 
         public void Excluir(int idProjeto)
