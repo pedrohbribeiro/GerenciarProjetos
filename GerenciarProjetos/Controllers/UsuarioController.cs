@@ -3,6 +3,7 @@ using GerenciarProjetos.Models.Requests.Usuario;
 using GerenciarProjetos.Models.Responses;
 using GerenciarProjetos.Models.Responses.Usuario;
 using GerenciarProjetos.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -10,6 +11,7 @@ namespace GerenciarProjetos.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class UsuarioController
     {
         private readonly IUsuarioService _usuarioService;

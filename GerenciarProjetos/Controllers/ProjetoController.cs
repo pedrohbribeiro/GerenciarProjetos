@@ -33,7 +33,7 @@ namespace GerenciarProjetos.Controllers
         [SwaggerResponse(200, Type = typeof(DefaultResultResponse))]
         [SwaggerResponse(400, "Uma ou mais propriedades são inválidas", Type = typeof(BadRequestResponse))]
         [SwaggerResponse(401, "Token não informado ou inválido", Type = typeof(ErrorResponse))]
-        [SwaggerResponse(404, "O projeto de Id igual a Request.IdProjeto informado não existe ou foi excluído", typeof(ErrorResponse))]
+        [SwaggerResponse(404, "O projeto informado não existe ou foi excluído", typeof(ErrorResponse))]
         public DefaultResultResponse EditarProjeto(EditarProjetoRequest request)
         {
             return _projetoService.Editar(request);
@@ -42,6 +42,7 @@ namespace GerenciarProjetos.Controllers
         [HttpDelete("ExcluirProjeto")]
         [SwaggerResponse(200, Type = typeof(DefaultResultResponse))]
         [SwaggerResponse(401, "Token não informado ou inválido", Type = typeof(ErrorResponse))]
+        [SwaggerResponse(404, "O projeto informado não existe ou já foi excluído", typeof(ErrorResponse))]
         [SwaggerResponse(500, "Erro interno", typeof(ErrorResponse))]
         public DefaultResultResponse ExcluirProjeto(int idProjeto)
         {
@@ -51,6 +52,7 @@ namespace GerenciarProjetos.Controllers
         [HttpGet("ObterDetalhes")]
         [SwaggerResponse(200, Type = typeof(DefaultResultResponse))]
         [SwaggerResponse(401, "Token não informado ou inválido", Type = typeof(ErrorResponse))]
+        [SwaggerResponse(404, "O projeto informado não existe ou já foi excluído", typeof(ErrorResponse))]
         [SwaggerResponse(500, "Erro interno", typeof(ErrorResponse))]
         public DetalhesProjetoResponse ObterDetalhes(int idProjeto)
         {
