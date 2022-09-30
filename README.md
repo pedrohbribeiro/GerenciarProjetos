@@ -1,5 +1,7 @@
 # Como executar o projeto
 
+O projeto está disponível em: http://129.148.40.2:8080/swagger/index.html
+
 ## 1º Passo: substituir configurações
 Altere em [GerenciarProjetos/appsettings.json](GerenciarProjetos/appsettings.json) os seguintes valores:
 1. ***ConnectionStrings/DbGerenciarProjetos*** para a string de conexão do banco de dados
